@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OptionActivity"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="get_date_info"></CalendarView>
+
+    <EditText
+        android:id="@+id/insert_info"
+        android:hint="이곳에 이용 노선을 입력"
+        android:layout_width="200dp"
+        android:layout_height="48dp"></EditText>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/insert_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="등록"
+            android:onClick="insert_data"></Button>
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:onClick="delete_data"></Button>
+    </LinearLayout>
+    <ListView
+        android:background="@drawable/container_shape"
+        android:id="@+id/route_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="10dp"
+        android:orientation="vertical">
+    </ListView>
+</LinearLayout>
