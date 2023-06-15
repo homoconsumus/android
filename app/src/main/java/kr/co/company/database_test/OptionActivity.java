@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -103,12 +106,22 @@ public class OptionActivity extends AppCompatActivity {
 
         db.execSQL("INSERT INTO " + db_name + "(date, route) VALUES ('" +
                 dateInfo_text + "', '" + routeInfo + "');");
+        update_card_list();
     }
 
     // 데이터베이스에 등록돼있는 정보 삭제
-    public void delete_data(View v){
-        EditText route_edit = (EditText) findViewById(R.id.insert_info);
-        routeInfo = route_edit.getText().toString();
+    private void deleteCard(int position) {
+        // 선택한 카드를 데이터베이스에서 삭제
+        String selectedRoute = route_list.get(position);
+        db.execSQL("DELETE FROM " + db_name + " WHERE date = '" + dateInfo_text + "' AND route = '" + selectedRoute + "';");
+        route_list.remove(position);
+        card_adapter.notifyDataSetChanged();
+
+        if (route_list.size() > 0) {
+            container.setPadding(10, 10, 10, 10);
+        } else {
+            container.setPadding(0, 0, 0, 0);
+        }
     }
 
     // 데이터베이스에 등록돼있는 정보 가져오기
@@ -138,6 +151,31 @@ public class OptionActivity extends AppCompatActivity {
         route_list = get_schedule_info();
         System.out.println(route_list);
         card_adapter.notifyDataSetChanged();
+
+        // route_container의 롱 클릭 리스너 등록
+        setCardLongClickListener();
+    }
+
+    private void setCardLongClickListener() {
+        container.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // 롱 클릭된 카드 삭제 여부를 묻는 다이얼로그 표시
+                AlertDialog.Builder builder = new AlertDialog.Builder(OptionActivity.this);
+                builder.setTitle("카드 삭제");
+                builder.setMessage("선택한 카드를 삭제하시겠습니까?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // 카드 삭제
+                        deleteCard(position);
+                    }
+                });
+                builder.setNegativeButton("No", null);
+                builder.show();
+                return true;
+            }
+        });
     }
 
     public class CardList extends ArrayAdapter<String> {
