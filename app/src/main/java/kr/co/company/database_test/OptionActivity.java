@@ -1,5 +1,7 @@
 package kr.co.company.database_test;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.http.Tag;
 
 public class OptionActivity extends AppCompatActivity {
     static String dateInfo_text = "";
@@ -65,6 +70,10 @@ public class OptionActivity extends AppCompatActivity {
         System.out.println(dateInfo_text);
 
         create_db(this);
+
+        // Intent에서 card_title 정보 추출
+        String cardTitle = getIntent().getStringExtra("card_title");
+        Log.d(TAG, "Card Title: " + cardTitle);
 
         // 데이터베이스에서 해당 날짜에 기록된 이용 호선 정보 가져오기
         // 카드 생성

@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -113,14 +116,32 @@ public class MainActivity extends AppCompatActivity {
         return route_list;
     }
 
-
-
     // ListView의 항목을 갱신
     private void update_card_list(){
         route_list.clear();
         route_list = get_schedule_info();
         System.out.println("현재 route_list: " + route_list);
         schedule_adapter.notifyDataSetChanged();
+
+        // route_container의 롱 클릭 리스너 등록
+        setCardClickListener();
+    }
+
+    // schedule_card를 클릭 시 카드의 날짜 정보를 OptionActivity에게 전달하는 메서드
+    private void setCardClickListener() {
+        container.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (route_list.size() > position) {
+                    List<String> item = route_list.get(position);
+                    String cardTitle = item.get(0);
+
+                    Intent intent = new Intent(MainActivity.this, OptionActivity.class);
+                    intent.putExtra("card_title", cardTitle);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     // Listview Adapter 클래스

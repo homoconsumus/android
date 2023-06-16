@@ -12,6 +12,11 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:text="일정 등록"></Button>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="알림시간 19:05 ">
+    </TextView>
     <ListView
         android:background="@drawable/container_shape"
         android:id="@+id/schedule_container"
