@@ -12,11 +12,34 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:text="일정 등록"></Button>
-    <TextView
-        android:layout_width="wrap_content"
+
+
+    <LinearLayout
+        android:id="@+id/setTime"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="알림시간 19:05 ">
-    </TextView>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginVertical="10dp"
+        android:onClick="setTime">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림 시간  00:00"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="8pt"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:layout_width="11pt"
+            android:layout_height="11pt"
+            android:src="@drawable/rotate"/>
+
+    </LinearLayout>
+
+
     <ListView
         android:background="@drawable/container_shape"
         android:id="@+id/schedule_container"
