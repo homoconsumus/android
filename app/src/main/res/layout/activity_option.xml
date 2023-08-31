@@ -30,13 +30,14 @@
             android:layout_height="wrap_content"
             android:text="등록"
             android:onClick="insert_data"></Button>
-        <Button
-            android:id="@+id/delete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="삭제"
-            android:onClick="delete_data"></Button>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        android:text="등록된 호선을 꾹 눌러 삭제"
+        >
+    </TextView>
     <ListView
         android:background="@drawable/container_shape"
         android:id="@+id/route_container"
