@@ -198,4 +198,9 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, DelayService.class);
         startService(serviceIntent);
     }
+
+    // 알람 시간 설정하기
+    public void setTime(View v){
+        Log.d("jaeeon", "test");
+    }
 }
