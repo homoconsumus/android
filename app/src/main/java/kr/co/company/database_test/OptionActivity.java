@@ -28,6 +28,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,9 +73,21 @@ public class OptionActivity extends AppCompatActivity {
 
         create_db(this);
 
+
         // Intent에서 card_title 정보 추출
         String cardTitle = getIntent().getStringExtra("card_title");
         Log.d(TAG, "Card Title: " + cardTitle);
+
+        // Intent에서 가저온 card_title에 맞춰 날짜 선택
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = dateFormat.parse(cardTitle);
+            calendar.setTime(date);
+            calendarView.setDate(calendar.getTimeInMillis()); // 날짜 설정
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         // 데이터베이스에서 해당 날짜에 기록된 이용 호선 정보 가져오기
         // 카드 생성
@@ -113,9 +127,31 @@ public class OptionActivity extends AppCompatActivity {
         EditText route_edit = (EditText) findViewById(R.id.insert_info);
         routeInfo = route_edit.getText().toString();
 
-        db.execSQL("INSERT INTO " + db_name + "(date, route) VALUES ('" +
-                dateInfo_text + "', '" + routeInfo + "');");
-        update_card_list();
+        // 중복 여부를 확인할 쿼리
+        Cursor cursor = db.rawQuery("SELECT * FROM " + db_name + " WHERE date = '" +
+                dateInfo_text + "' AND route = '" + routeInfo + "';", null);
+
+        // 중복 여부 확인
+        if (cursor.getCount() > 0) {
+            // 중복된 데이터가 있는 경우 다이얼로그 창을 띄움
+            showDuplicateDataDialog();
+        } else {
+            // 중복된 데이터가 없는 경우 데이터베이스에 등록
+            db.execSQL("INSERT INTO " + db_name + "(date, route) VALUES ('" +
+                    dateInfo_text + "', '" + routeInfo + "');");
+            update_card_list();
+        }
+
+        cursor.close();
+    }
+
+    // 중복된 데이터가 있을 때 띄울 다이얼로그 창
+    private void showDuplicateDataDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("중복된 데이터");
+        builder.setMessage("이미 같은 날짜와 호선 정보가 등록되어 있습니다.");
+        builder.setPositiveButton("확인", null);
+        builder.show();
     }
 
     // 데이터베이스에 등록돼있는 정보 삭제
