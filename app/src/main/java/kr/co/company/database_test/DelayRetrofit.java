@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface DelayRetrofit {
 
-    @GET("delay/get")
+    @GET("delay/")
     Call<List<Delay>> getData(@Query("number") String number);
 
 }

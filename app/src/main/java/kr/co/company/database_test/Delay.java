@@ -2,7 +2,7 @@ package kr.co.company.database_test;
 
 public class Delay {
 
-    private Long id;
+    private int id;
     private String title;
     private String start;
     private String end;
@@ -10,11 +10,11 @@ public class Delay {
     private String text;
     private String link;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

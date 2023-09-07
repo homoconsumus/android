@@ -24,6 +24,7 @@
         android:onClick="setTime">
 
         <TextView
+            android:id="@+id/alarm_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="알림 시간  00:00"
@@ -50,10 +51,7 @@
         android:padding="10dp"
         android:orientation="vertical">
     </ListView>
-    <Button
-        android:onClick="get"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Button>
+
     <TextView
         android:id="@+id/test_text"
         android:layout_width="wrap_content"

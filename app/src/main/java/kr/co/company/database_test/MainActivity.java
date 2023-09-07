@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private ScheduleList schedule_adapter;
     List<List<String>> route_list = new ArrayList<>();
 
+    // 추가된 멤버변수
+    // 알림 시간 표시
+    TextView alarmTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Button addBtn = findViewById(R.id.move_to_option);
+        // 추가 코드
+        /// 텍스트뷰 연결
+        alarmTime = (TextView) findViewById(R.id.alarm_time);
 
         // OptionActivity로 이동하는 버튼 리스너
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         schedule_adapter = new ScheduleList(route_list);
         container.setAdapter(schedule_adapter);
         update_card_list();
+
+        // 추가 코드
+        // DB로 부터 알람 시간을 받아와서 화면에 표시
+        setAlarmTime();
     }
 
     // main페이지로 다시 돌아왔을 때 scheduleList를 update
@@ -192,15 +203,53 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
-    // 서버와 통신
-    public void get(View v) {
-        Intent serviceIntent = new Intent(this, DelayService.class);
-        startService(serviceIntent);
+
+    // 추가된 메소드
+    // 알림 시간 설정 페이지로 이동
+    public void setTime(View view) {
+        Intent intent = new Intent(this, TimeSetting.class);
+        startActivityForResult(intent, 1);
     }
 
-    // 알람 시간 설정하기
-    public void setTime(View v){
-        Log.d("jaeeon", "test");
+    // 추가된 메소드
+    // 알림 시간 설정 페이지로 부터 설정된 시간을 받아서 화면에 표시
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // 요청 코드가 일치하고 결과 코드가 성공이면 전달받은 시간을 화면에 표시
+                alarmTime.setText("알림 시간\t\t\t" + data.getStringExtra("hour") + ":" + data.getStringExtra("min"));
+            }
+        }
+    }
+    // 추가된 메소드
+    // DB에 저장된 알람시간 받아오기
+    public int[] getAlarmTime() {
+        int[] alarmTimeDB = {0, 0};
+        try {
+
+            String query = "SELECT hour, minute FROM alarm_time";
+            Cursor cursor = db.rawQuery(query, null);
+            while(cursor.moveToNext()){
+                alarmTimeDB[0] = cursor.getInt(0);
+                alarmTimeDB[1] = cursor.getInt(1);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            return alarmTimeDB;
+        }
+    }
+    // 받아온 알림 시간 표시하기
+    public void setAlarmTime() {
+        int[] alarmTimeDB = getAlarmTime();
+
+        String hourStr = (alarmTimeDB[0]>=10) ? "" : "0";
+        String minStr = (alarmTimeDB[1]>=10) ? "" : "0";
+        hourStr += (alarmTimeDB[0] + "");
+        minStr += (alarmTimeDB[1] + "");
+        alarmTime.setText("알림 시간\t\t\t" +hourStr + ":" + minStr);
     }
 }
