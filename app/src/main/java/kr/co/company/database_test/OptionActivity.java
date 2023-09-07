@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -80,14 +82,16 @@ public class OptionActivity extends AppCompatActivity {
 
         // Intent에서 가저온 card_title에 맞춰 날짜 선택
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = dateFormat.parse(cardTitle);
-            calendar.setTime(date);
-            calendarView.setDate(calendar.getTimeInMillis()); // 날짜 설정
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        try{
+            if(cardTitle != null){
+                dateInfo_text = cardTitle;
+                Date date = dateFormat.parse(cardTitle);
+                calendar.setTime(date);
+                calendarView.setDate(calendar.getTimeInMillis()); // 날짜 설정
+            }
+        }catch (ParseException e){
 
+        }
 
         // 데이터베이스에서 해당 날짜에 기록된 이용 호선 정보 가져오기
         // 카드 생성
@@ -153,6 +157,41 @@ public class OptionActivity extends AppCompatActivity {
         builder.setPositiveButton("확인", null);
         builder.show();
     }
+
+
+    // 기간별로 데이터를 등록
+// 기간별로 데이터를 등록하기 위한 다이얼로그 창
+    public void duration_option(View view) {
+        // 기간 선택을 위한 다이얼로그 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("기간 선택");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_duration, null);
+        builder.setView(dialogView);
+
+        // 체크박스들 가져오기
+        CheckBox checkBoxEveryday = dialogView.findViewById(R.id.checkbox_everyday);
+        CheckBox checkBoxMonday = dialogView.findViewById(R.id.checkbox_monday);
+        CheckBox checkBoxTuesday = dialogView.findViewById(R.id.checkbox_tuesday);
+        // 나머지 요일 체크박스들도 가져와야 함
+
+        // 다이얼로그에서 확인 버튼을 누를 경우
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // 여기에서 체크된 체크박스들의 정보를 이용하여 데이터베이스에 등록하는 로직을 추가
+                // 이후에 데이터베이스에 등록된 내용을 리스트에 업데이트하고 화면에 보여주는 코드를 작성
+                update_card_list();
+            }
+        });
+
+        // 다이얼로그에서 취소 버튼을 누를 경우
+        builder.setNegativeButton("취소", null);
+
+        // 다이얼로그 표시
+        builder.show();
+    }
+
 
     // 데이터베이스에 등록돼있는 정보 삭제
     private void deleteCard(int position) {

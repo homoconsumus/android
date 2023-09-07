@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기간을 선택하세요:"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_everyday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="매일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="월요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="화요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="금요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="토요일" />
+
+    <CheckBox
+        android:id="@+id/checkbox_sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일요일" />
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

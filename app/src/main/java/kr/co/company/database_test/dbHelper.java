@@ -12,9 +12,14 @@ public class dbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE date_route_db (" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS date_route_db (" +
                 "idx INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT, route TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS schedule_table (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "duration_date TEXT," +
+                "route TEXT);");
     }
 
     @Override

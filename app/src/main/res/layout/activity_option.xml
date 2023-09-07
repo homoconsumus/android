@@ -30,6 +30,12 @@
             android:layout_height="wrap_content"
             android:text="등록"
             android:onClick="insert_data"></Button>
+        <Button
+            android:id="@+id/duration_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기간으로 등록"
+            android:onClick="duration_option"></Button>
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
