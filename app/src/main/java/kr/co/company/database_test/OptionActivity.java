@@ -50,6 +50,9 @@ public class OptionActivity extends AppCompatActivity {
     Calendar calendar;
     String db_name = "date_route_db";
     SQLiteDatabase db;
+    private String[] subwayList = {"1호선","2호선","3호선","4호선","5호선","6호선","7호선","8호선","9호선","분당선","경의중앙선","경춘선","신분당선"};
+    private TextView subwayListTextView;
+    private AlertDialog subwaytSelectDialog;
 
     // DB생성 또는 열기
     public void create_db(Context context){
@@ -75,6 +78,25 @@ public class OptionActivity extends AppCompatActivity {
         System.out.println(dateInfo_text);
 
         create_db(this);
+
+        // 텍스트뷰로 지하철 호선을 클릭하면 입력되게 함
+        subwayListTextView = (TextView) findViewById(R.id.insert_info);
+        subwayListTextView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                subwaytSelectDialog.show();
+            }
+        });
+
+        subwaytSelectDialog = new AlertDialog.Builder(OptionActivity.this)
+                .setItems(subwayList, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        subwayListTextView.setText(subwayList[i]);
+                    }
+                })
+                .setTitle("호선을 선택하세요")
+//                .setPositiveButton("확인", null)
+                .setNegativeButton("취소", null)
+                .create();
 
 
         // Intent에서 card_title 정보 추출
@@ -139,8 +161,9 @@ public class OptionActivity extends AppCompatActivity {
                 dateInfo_text + "' AND route = '" + routeInfo + "';", null);
 
         // 중복 여부 확인
-        if (cursor.getCount() > 0) {
-            // 중복된 데이터가 있는 경우 다이얼로그 창을 띄움
+        if (routeInfo.equals("이곳을 클릭하세요")) { // 아무것도 입력되지 않았을 때
+            showNothingDataDialog();
+        } else if (cursor.getCount() > 0) { // 중복된 데이터가 있는 경우 다이얼로그 창을 띄움
             showDuplicateDataDialog();
         } else {
             // 중복된 데이터가 없는 경우 데이터베이스에 등록
@@ -157,6 +180,14 @@ public class OptionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("중복된 데이터");
         builder.setMessage("이미 같은 날짜에 같은 호선 정보가 등록되어 있습니다.");
+        builder.setPositiveButton("확인", null);
+        builder.show();
+    }
+    // 아무것도 선택하지 않았을 땐 입력이 되지 않게 하는 창
+    private void showNothingDataDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("아무것도 선택되지 않음");
+        builder.setMessage("아무것도 선택하지 않으셨습니다.");
         builder.setPositiveButton("확인", null);
         builder.show();
     }
