@@ -45,6 +45,7 @@ public class OptionActivity extends AppCompatActivity {
     private CardList card_adapter;
     ListView container;
     Date dateInfo;
+    TextView route_text;
     String routeInfo = "";
     Calendar calendar;
     String db_name = "date_route_db";
@@ -122,14 +123,16 @@ public class OptionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // route_text 생성
+        route_text = findViewById(R.id.insert_info);
     }
 
     // 데이터베이스에 날짜, 호선 정보 입력
     public void insert_data(View v){
         System.out.println(dateInfo_text);
 
-        EditText route_edit = (EditText) findViewById(R.id.insert_info);
-        routeInfo = route_edit.getText().toString();
+        routeInfo = route_text.getText().toString();
 
         // 중복 여부를 확인할 쿼리
         Cursor cursor = db.rawQuery("SELECT * FROM " + db_name + " WHERE date = '" +
@@ -153,7 +156,7 @@ public class OptionActivity extends AppCompatActivity {
     private void showDuplicateDataDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("중복된 데이터");
-        builder.setMessage("이미 같은 날짜와 호선 정보가 등록되어 있습니다.");
+        builder.setMessage("이미 같은 날짜에 같은 호선 정보가 등록되어 있습니다.");
         builder.setPositiveButton("확인", null);
         builder.show();
     }
@@ -162,18 +165,28 @@ public class OptionActivity extends AppCompatActivity {
     // 기간별로 데이터를 등록
 // 기간별로 데이터를 등록하기 위한 다이얼로그 창
     public void duration_option(View view) {
+        routeInfo = route_text.getText().toString();
+
         // 기간 선택을 위한 다이얼로그 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("기간 선택");
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_duration, null);
+        // 호선 정보 가져오기
+        TextView dialog_route = dialogView.findViewById(R.id.dialog_route);
+        dialog_route.setText(routeInfo);
+        // 생성
         builder.setView(dialogView);
 
         // 체크박스들 가져오기
         CheckBox checkBoxEveryday = dialogView.findViewById(R.id.checkbox_everyday);
         CheckBox checkBoxMonday = dialogView.findViewById(R.id.checkbox_monday);
         CheckBox checkBoxTuesday = dialogView.findViewById(R.id.checkbox_tuesday);
-        // 나머지 요일 체크박스들도 가져와야 함
+        CheckBox checkBoxWednesday = dialogView.findViewById(R.id.checkbox_wednesday);
+        CheckBox checkBoxThursday = dialogView.findViewById(R.id.checkbox_thursday);
+        CheckBox checkBoxFriday = dialogView.findViewById(R.id.checkbox_friday);
+        CheckBox checkBoxSaturday = dialogView.findViewById(R.id.checkbox_saturday);
+        CheckBox checkBoxSunday = dialogView.findViewById(R.id.checkbox_sunday);
 
         // 다이얼로그에서 확인 버튼을 누를 경우
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {

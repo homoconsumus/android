@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:onClick="get_date_info"></CalendarView>
 
-    <EditText
+    <TextView
         android:id="@+id/insert_info"
         android:hint="이곳에 이용 노선을 입력"
         android:layout_width="200dp"
-        android:layout_height="48dp"></EditText>
+        android:layout_height="48dp"></TextView>
 
     <LinearLayout
         android:layout_width="wrap_content"
