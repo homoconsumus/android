@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         update_card_list();
+
+        // 추가
+        // 시간 지난 일정 삭제 메소드 호출
+        deleteOldSchedule();
     }
 
     public List<List<String>> get_schedule_info() {
@@ -251,5 +259,40 @@ public class MainActivity extends AppCompatActivity {
         hourStr += (alarmTimeDB[0] + "");
         minStr += (alarmTimeDB[1] + "");
         alarmTime.setText("알림 시간\t\t\t" +hourStr + ":" + minStr);
+    }
+
+    // 날짜 지난 일정 지우는 메소드
+    private void deleteOldSchedule() {
+
+        Cursor cursor = db.rawQuery("SELECT idx, date FROM " + db_name + ";", null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+
+                LocalDate today = LocalDate.now(); // 오늘 날짜
+                List<Integer> deletedDateList = new ArrayList<>();; // 삭제할 날짜 리스트
+
+                do {
+                    // 조회된 데이터 확인
+                    String date = cursor.getString(1);
+                    int idx = cursor.getInt(0);
+                    // 문자열을 Datetime으로 변환
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+                    LocalDate dateTime = LocalDate.parse(date, formatter);
+
+                    // 오늘보다 지났으면
+                    if (today.isAfter(dateTime)) {
+                        // 리스트에 추가
+                        deletedDateList.add(idx);
+                    }
+
+                } while (cursor.moveToNext());
+
+                // 리스트에 있는 데이터들 DB에서 지우기
+                for (int idx : deletedDateList) {
+                    String query = "DELETE FROM " + db_name + " WHERE idx = " + idx;
+                    db.execSQL(query);
+                }
+            }
+        }
     }
 }
