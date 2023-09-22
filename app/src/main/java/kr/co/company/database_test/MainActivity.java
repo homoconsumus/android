@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         minStr += (alarmTimeDB[1] + "");
         alarmTime.setText("알림 시간\t\t\t" +hourStr + ":" + minStr);
     }
-
+    // 추가된 메소드
     // 날짜 지난 일정 지우는 메소드
     private void deleteOldSchedule() {
 
@@ -288,8 +288,13 @@ public class MainActivity extends AppCompatActivity {
                 } while (cursor.moveToNext());
 
                 // 리스트에 있는 데이터들 DB에서 지우기
-                for (int idx : deletedDateList) {
-                    String query = "DELETE FROM " + db_name + " WHERE idx = " + idx;
+                if (deletedDateList.size() > 0){
+                    String query = "DELETE FROM " + db_name + " WHERE ";
+                    for (int idx : deletedDateList) {
+                        query +=  "idx = " + idx + " or ";
+                    }
+                    query = query.substring(0, query.length() - 4);
+                    query += ";";
                     db.execSQL(query);
                 }
             }
