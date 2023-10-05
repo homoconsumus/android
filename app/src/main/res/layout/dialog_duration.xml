@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,54 +26,64 @@
         android:layout_marginBottom="16dp"/>
 
     <CheckBox
+        android:background="#F8E0E0"
         android:id="@+id/checkbox_everyday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="매일" />
 
     <CheckBox
+        android:background="#F5A9A9"
         android:id="@+id/checkbox_monday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="월요일" />
 
     <CheckBox
+        android:background="#F5BCA9"
         android:id="@+id/checkbox_tuesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="화요일" />
 
     <CheckBox
+        android:background="#F5D0A9"
         android:id="@+id/checkbox_wednesday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수요일" />
 
     <CheckBox
+        android:background="#F3E2A9"
         android:id="@+id/checkbox_thursday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="목요일" />
 
     <CheckBox
+        android:background="#F2F5A9"
         android:id="@+id/checkbox_friday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="금요일" />
 
     <CheckBox
+        android:background="#E1F5A9"
         android:id="@+id/checkbox_saturday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="토요일" />
 
     <CheckBox
+        android:background="#D0F5A9"
         android:id="@+id/checkbox_sunday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="일요일" />
 
     <Button
+        android:elevation="10dp"
+        android:backgroundTint="#AADBFF"
         android:id="@+id/confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
