@@ -16,10 +16,10 @@ public class dbHelper extends SQLiteOpenHelper {
                 "idx INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT, route TEXT)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS schedule_table (" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS alarm_time (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "duration_date TEXT," +
-                "route TEXT);");
+                "hour INTEGER," +
+                "minute INTEGER);");
     }
 
     @Override
